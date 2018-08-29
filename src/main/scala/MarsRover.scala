@@ -4,14 +4,7 @@ import Direction.Direction
 object MarsRover {
 
   def receive(current: (Position, NotDirectionYet), commands: Seq[Command]): (Position, Direction) = {
-    val currentPosition = current._1
-    val currentNotDirectionYet = current._2
-    currentNotDirectionYet match {
-      case North => move((currentPosition, North), commands.head)
-      case  East => move((currentPosition, East), commands.head)
-      case South => move((currentPosition, South), commands.head)
-      case  West => move((currentPosition, West), commands.head)
-    }
+    move(current, commands.head)
   }
 
   def move(current: (Position, NotDirectionYet), command: Command): (Position, Direction) = {
