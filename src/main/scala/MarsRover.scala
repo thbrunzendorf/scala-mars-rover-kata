@@ -23,7 +23,7 @@ object MarsRover {
       case (Direction.SOUTH, Command.LEFT) =>
         (Position(currentPosition.x, currentPosition.y), Direction.EAST)
       case (Direction.NORTH, Command.LEFT) =>
-        (Position(currentPosition.x, currentPosition.y), Direction.WEST)
+        (Position(currentPosition.x, currentPosition.y), North.left().mapToDirection())
       case (Direction.WEST, Command.LEFT) =>
         (Position(currentPosition.x, currentPosition.y), Direction.SOUTH)
       case (Direction.EAST, Command.LEFT) =>
@@ -43,6 +43,59 @@ object Direction extends Enumeration {
   val  EAST = Value("E")
   val SOUTH = Value("S")
   val  WEST = Value("W")
+}
+
+abstract class NotDirectionYet() {
+  val NORTH = "N"
+  val  EAST = "E"
+  val SOUTH = "S"
+  val  WEST = "W"
+  def left(): NotDirectionYet
+  def right(): NotDirectionYet
+  def mapToDirection(): Direction = {
+    this match {
+      case (North) => Direction.NORTH
+      case (East) => Direction.EAST
+      case (South) => Direction.SOUTH
+      case (West) => Direction.WEST
+    }
+  }
+}
+
+object North extends NotDirectionYet {
+  def left(): NotDirectionYet = {
+    return West
+  }
+  def right(): NotDirectionYet = {
+    return East
+  }
+}
+
+object West extends NotDirectionYet {
+  def left(): NotDirectionYet = {
+    return South
+  }
+  def right(): NotDirectionYet = {
+    return North
+  }
+}
+
+object South extends NotDirectionYet {
+  def left(): NotDirectionYet = {
+    return East
+  }
+  def right(): NotDirectionYet = {
+    return West
+  }
+}
+
+object East extends NotDirectionYet {
+  def left(): NotDirectionYet = {
+    return North
+  }
+  def right(): NotDirectionYet = {
+    return South
+  }
 }
 
 object Command extends Enumeration {
