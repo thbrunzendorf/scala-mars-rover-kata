@@ -1,5 +1,4 @@
 import Command.Command
-import Direction.Direction
 
 object MarsRover {
 
@@ -37,14 +36,6 @@ object MarsRover {
 
 case class Position(x: Int, y: Int)
 
-object Direction extends Enumeration {
-  type Direction = Value
-  val NORTH = Value("N")
-  val  EAST = Value("E")
-  val SOUTH = Value("S")
-  val  WEST = Value("W")
-}
-
 abstract class NotDirectionYet() {
   val NORTH = "N"
   val  EAST = "E"
@@ -52,14 +43,6 @@ abstract class NotDirectionYet() {
   val  WEST = "W"
   def left(): NotDirectionYet
   def right(): NotDirectionYet
-  def mapToDirection(): Direction = {
-    this match {
-      case (North) => Direction.NORTH
-      case (East) => Direction.EAST
-      case (South) => Direction.SOUTH
-      case (West) => Direction.WEST
-    }
-  }
 }
 
 object North extends NotDirectionYet {
