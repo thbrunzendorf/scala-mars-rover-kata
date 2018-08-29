@@ -39,37 +39,37 @@ abstract class Direction() {
 
 object North extends Direction {
   def left(): Direction = {
-    return West
+    West
   }
   def right(): Direction = {
-    return East
+    East
   }
 }
 
 object West extends Direction {
   def left(): Direction = {
-    return South
+    South
   }
   def right(): Direction = {
-    return North
+    North
   }
 }
 
 object South extends Direction {
   def left(): Direction = {
-    return East
+    East
   }
   def right(): Direction = {
-    return West
+    West
   }
 }
 
 object East extends Direction {
   def left(): Direction = {
-    return North
+    North
   }
   def right(): Direction = {
-    return South
+    South
   }
 }
 
