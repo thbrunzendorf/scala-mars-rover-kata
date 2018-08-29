@@ -21,6 +21,8 @@ object MarsRover {
 
       case (anyDirection, Command.LEFT) =>
         (currentPosition, anyDirection.left())
+      case (anyDirection, Command.RIGHT) =>
+        (currentPosition, anyDirection.right())
 
       case _ =>
         (currentPosition, currentDirection)
