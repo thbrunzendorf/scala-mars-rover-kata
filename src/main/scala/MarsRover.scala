@@ -2,11 +2,11 @@ import Command.Command
 
 object MarsRover {
 
-  def receive(current: (Position, NotDirectionYet), commands: Seq[Command]): (Position, NotDirectionYet) = {
+  def receive(current: (Position, Direction), commands: Seq[Command]): (Position, Direction) = {
     move(current, commands.head)
   }
 
-  def move(current: (Position, NotDirectionYet), command: Command): (Position, NotDirectionYet) = {
+  def move(current: (Position, Direction), command: Command): (Position, Direction) = {
     val currentPosition = current._1
     val currentDirection = current._2
     (currentDirection, command) match {
@@ -36,43 +36,43 @@ object MarsRover {
 
 case class Position(x: Int, y: Int)
 
-abstract class NotDirectionYet() {
-  def left(): NotDirectionYet
-  def right(): NotDirectionYet
+abstract class Direction() {
+  def left(): Direction
+  def right(): Direction
 }
 
-object North extends NotDirectionYet {
-  def left(): NotDirectionYet = {
+object North extends Direction {
+  def left(): Direction = {
     return West
   }
-  def right(): NotDirectionYet = {
+  def right(): Direction = {
     return East
   }
 }
 
-object West extends NotDirectionYet {
-  def left(): NotDirectionYet = {
+object West extends Direction {
+  def left(): Direction = {
     return South
   }
-  def right(): NotDirectionYet = {
+  def right(): Direction = {
     return North
   }
 }
 
-object South extends NotDirectionYet {
-  def left(): NotDirectionYet = {
+object South extends Direction {
+  def left(): Direction = {
     return East
   }
-  def right(): NotDirectionYet = {
+  def right(): Direction = {
     return West
   }
 }
 
-object East extends NotDirectionYet {
-  def left(): NotDirectionYet = {
+object East extends Direction {
+  def left(): Direction = {
     return North
   }
-  def right(): NotDirectionYet = {
+  def right(): Direction = {
     return South
   }
 }
