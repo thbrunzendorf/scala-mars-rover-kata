@@ -40,15 +40,15 @@ case class Position(x: Int, y: Int)
 object Direction extends Enumeration {
   type Direction = Value
   val NORTH = Value("N")
-  val EAST = Value("E")
+  val  EAST = Value("E")
   val SOUTH = Value("S")
-  val WEST = Value("W")
+  val  WEST = Value("W")
 }
 
 object Command extends Enumeration {
   type Command = Value
-  val FORWARD = Value("f")
+  val  FORWARD = Value("f")
   val BACKWARD = Value("b")
-  val LEFT = Value("l")
-  val RIGHT = Value("r")
+  val     LEFT = Value("l")
+  val    RIGHT = Value("r")
 }
