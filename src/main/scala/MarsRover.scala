@@ -3,34 +3,34 @@ import Direction.Direction
 
 object MarsRover {
 
-  def receive(current: (Position, NotDirectionYet), commands: Seq[Command]): (Position, Direction) = {
+  def receive(current: (Position, NotDirectionYet), commands: Seq[Command]): (Position, NotDirectionYet) = {
     move(current, commands.head)
   }
 
-  def move(current: (Position, NotDirectionYet), command: Command): (Position, Direction) = {
+  def move(current: (Position, NotDirectionYet), command: Command): (Position, NotDirectionYet) = {
     val currentPosition = current._1
     val currentDirection = current._2
     (currentDirection, command) match {
       case (East, Command.FORWARD) | (West, Command.BACKWARD) =>
-        (Position(currentPosition.x + 1, currentPosition.y), currentDirection.mapToDirection())
+        (Position(currentPosition.x + 1, currentPosition.y), currentDirection)
       case (West, Command.FORWARD) | (East, Command.BACKWARD)=>
-        (Position(currentPosition.x - 1, currentPosition.y), currentDirection.mapToDirection())
+        (Position(currentPosition.x - 1, currentPosition.y), currentDirection)
       case (South, Command.FORWARD) | (North, Command.BACKWARD)=>
-        (Position(currentPosition.x, currentPosition.y + 1), currentDirection.mapToDirection())
+        (Position(currentPosition.x, currentPosition.y + 1), currentDirection)
       case (North, Command.FORWARD) | (South, Command.BACKWARD) =>
-        (Position(currentPosition.x, currentPosition.y - 1), currentDirection.mapToDirection())
+        (Position(currentPosition.x, currentPosition.y - 1), currentDirection)
 
       case (South, Command.LEFT) =>
-        (Position(currentPosition.x, currentPosition.y), South.left().mapToDirection())
+        (Position(currentPosition.x, currentPosition.y), South.left())
       case (North, Command.LEFT) =>
-        (Position(currentPosition.x, currentPosition.y), North.left().mapToDirection())
+        (Position(currentPosition.x, currentPosition.y), North.left())
       case (West, Command.LEFT) =>
-        (Position(currentPosition.x, currentPosition.y), West.left().mapToDirection())
+        (Position(currentPosition.x, currentPosition.y), West.left())
       case (East, Command.LEFT) =>
-        (Position(currentPosition.x, currentPosition.y), East.left().mapToDirection())
+        (Position(currentPosition.x, currentPosition.y), East.left())
 
       case _ =>
-        (currentPosition, currentDirection.mapToDirection())
+        (currentPosition, currentDirection)
     }
   }
 }
