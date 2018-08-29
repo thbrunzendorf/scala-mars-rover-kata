@@ -5,7 +5,7 @@ class MarsRoverSpec extends WordSpec with Matchers {
 
   "MarsRover" should {
     "turn orientation east when receiving left command" in {
-      val (position, direction) = MarsRover.receive((Position(1,1), Direction.SOUTH), Seq(Command.LEFT))
+      val (position, direction) = MarsRover.receiveNotDirectionYet((Position(1,1), South), Seq(Command.LEFT))
       position shouldEqual Position(1,1)
       direction shouldEqual Direction.EAST
     }

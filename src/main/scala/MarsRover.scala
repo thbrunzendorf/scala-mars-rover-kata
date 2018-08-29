@@ -7,6 +7,16 @@ object MarsRover {
     move(current, commands.head)
   }
 
+  def receiveNotDirectionYet(current: (Position, NotDirectionYet), commands: Seq[Command]): (Position, Direction) = {
+    val currentPosition = current._1
+    val currentNotDirectionYet = current._2
+    (currentNotDirectionYet) match {
+      case (South) =>
+        val moveHere = (currentPosition, Direction.SOUTH)
+        move(moveHere, commands.head)
+    }
+  }
+
   def move(current: (Position, Direction), command: Command): (Position, Direction) = {
     val currentPosition = current._1
     val currentDirection = current._2
