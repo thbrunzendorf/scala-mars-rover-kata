@@ -19,6 +19,16 @@ object MarsRover {
         (Position(currentPosition.x, currentPosition.y + 1), currentDirection)
       case (Direction.NORTH, Command.FORWARD) | (Direction.SOUTH, Command.BACKWARD) =>
         (Position(currentPosition.x, currentPosition.y - 1), currentDirection)
+
+      case (Direction.SOUTH, Command.LEFT) =>
+        (Position(currentPosition.x, currentPosition.y), Direction.EAST)
+      case (Direction.NORTH, Command.LEFT) =>
+        (Position(currentPosition.x, currentPosition.y), Direction.WEST)
+      case (Direction.WEST, Command.LEFT) =>
+        (Position(currentPosition.x, currentPosition.y), Direction.SOUTH)
+      case (Direction.EAST, Command.LEFT) =>
+        (Position(currentPosition.x, currentPosition.y), Direction.NORTH)
+
       case _ =>
         (currentPosition, currentDirection)
     }

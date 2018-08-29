@@ -4,6 +4,27 @@ import org.scalatest.{Matchers, WordSpec}
 class MarsRoverSpec extends WordSpec with Matchers {
 
   "MarsRover" should {
+    "turn orientation east when receiving left command" in {
+      val (position, direction) = MarsRover.receive((Position(1,1), Direction.SOUTH), Seq(Command.LEFT))
+      position shouldEqual Position(1,1)
+      direction shouldEqual Direction.EAST
+    }
+    "turn orientation west when receiving left command" in {
+      val (position, direction) = MarsRover.receive((Position(1,1), Direction.NORTH), Seq(Command.LEFT))
+      position shouldEqual Position(1,1)
+      direction shouldEqual Direction.WEST
+    }
+    "turn orientation south when receiving left command" in {
+      val (position, direction) = MarsRover.receive((Position(1,1), Direction.WEST), Seq(Command.LEFT))
+      position shouldEqual Position(1,1)
+      direction shouldEqual Direction.SOUTH
+    }
+    "turn orientation north when receiving left command" in {
+      val (position, direction) = MarsRover.receive((Position(1,1), Direction.EAST), Seq(Command.LEFT))
+      position shouldEqual Position(1,1)
+      direction shouldEqual Direction.NORTH
+    }
+
     "advance position eastwards when receiving forward command" in {
       val (position, direction) = MarsRover.receive((Position(1,1), Direction.EAST), Seq(Command.FORWARD))
       position shouldEqual Position(2,1)
