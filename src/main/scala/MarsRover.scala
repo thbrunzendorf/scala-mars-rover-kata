@@ -37,10 +37,6 @@ object MarsRover {
 case class Position(x: Int, y: Int)
 
 abstract class NotDirectionYet() {
-  val NORTH = "N"
-  val  EAST = "E"
-  val SOUTH = "S"
-  val  WEST = "W"
   def left(): NotDirectionYet
   def right(): NotDirectionYet
 }
