@@ -1,7 +1,10 @@
 import Command.Command
 
+import scala.annotation.tailrec
+
 object MarsRover {
 
+  @tailrec
   def receive(current: (Position, Direction), commands: Seq[Command]): (Position, Direction) = {
     commands.length match {
       case 0 => current
