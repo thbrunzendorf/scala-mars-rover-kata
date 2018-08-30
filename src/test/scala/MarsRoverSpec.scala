@@ -4,6 +4,12 @@ import org.scalatest.{Matchers, WordSpec}
 class MarsRoverSpec extends WordSpec with Matchers {
 
   "MarsRover" should {
+    "do nothing with an empty sequence" in {
+      val (position, direction) = MarsRover.receive((Position(1,1), South), Seq.empty)
+      position shouldEqual Position(1,1)
+      direction shouldEqual South
+    }
+
     "turn orientation east when receiving left command" in {
       val (position, direction) = MarsRover.receive((Position(1,1), South), Seq(Command.LEFT))
       position shouldEqual Position(1,1)

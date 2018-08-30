@@ -3,7 +3,10 @@ import Command.Command
 object MarsRover {
 
   def receive(current: (Position, Direction), commands: Seq[Command]): (Position, Direction) = {
-    move(current, commands.head)
+    commands.length match {
+      case 0 => current
+      case _ => move (current, commands.head)
+    }
   }
 
   def move(current: (Position, Direction), command: Command): (Position, Direction) = {
