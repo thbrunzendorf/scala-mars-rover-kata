@@ -25,10 +25,8 @@ object MarsRover {
       case (North, Forward) | (South, Backward) =>
         (Position(currentPosition.x, currentPosition.y + 1), currentDirection)
 
-      case (anyDirection, Left) =>
-        (currentPosition, anyDirection.left())
-      case (anyDirection, Right) =>
-        (currentPosition, anyDirection.right())
+      case (_, Left) | (_, Right) =>
+        command.execute(current)
 
       case _ =>
         (currentPosition, currentDirection)
@@ -86,17 +84,26 @@ object East extends Direction {
 
 abstract class Command {
   def opposite(): Command
+  def execute(current: (Position, Direction)): (Position, Direction)
 }
 
 object Forward extends Command {
   override def opposite() = Backward
+
+  override def execute(current: (Position, Direction)): (Position, Direction) = ???
 }
 object Backward extends Command {
   override def opposite() = Forward
+
+  override def execute(current: (Position, Direction)): (Position, Direction) = ???
 }
 object Left extends Command {
   override def opposite() = Right
+
+  override def execute(current: (Position, Direction)): (Position, Direction) = (current._1, current._2.left())
 }
 object Right extends Command {
   override def opposite() = Left
+
+  override def execute(current: (Position, Direction)): (Position, Direction) = (current._1, current._2.right())
 }
