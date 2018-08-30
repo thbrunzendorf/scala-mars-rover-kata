@@ -7,30 +7,13 @@ object MarsRover {
     commands.length match {
       case 0 => current
       case _ => {
-        receive(computeExactlyOneOfNewPositionOrNewDirection(current, commands.head), commands.tail)
+        receive(executeCommand(current, commands.head), commands.tail)
       }
     }
   }
 
-  def computeExactlyOneOfNewPositionOrNewDirection(current: (Position, Direction), command: Command): (Position, Direction) = {
-    val currentPosition = current._1
-    val currentDirection = current._2
-    (currentDirection, command) match {
-      case (East, Forward) | (West, Backward) =>
-        (Position(currentPosition.x + 1, currentPosition.y), currentDirection)
-      case (West, Forward) | (East, Backward)=>
-        (Position(currentPosition.x - 1, currentPosition.y), currentDirection)
-      case (South, Forward) | (North, Backward)=>
-        (Position(currentPosition.x, currentPosition.y - 1), currentDirection)
-      case (North, Forward) | (South, Backward) =>
-        (Position(currentPosition.x, currentPosition.y + 1), currentDirection)
-
-      case (_, Left) | (_, Right) =>
-        command.execute(current)
-
-      case _ =>
-        (currentPosition, currentDirection)
-    }
+  def executeCommand(current: (Position, Direction), command: Command): (Position, Direction) = {
+    command.execute(current)
   }
 }
 
@@ -90,12 +73,28 @@ abstract class Command {
 object Forward extends Command {
   override def opposite() = Backward
 
-  override def execute(current: (Position, Direction)): (Position, Direction) = ???
+  override def execute(current: (Position, Direction)): (Position, Direction) = {
+    val (currentPosition, currentDirection) = current
+    currentDirection match {
+      case East => (Position(currentPosition.x + 1, currentPosition.y), currentDirection)
+      case West => (Position(currentPosition.x - 1, currentPosition.y), currentDirection)
+      case South => (Position(currentPosition.x, currentPosition.y - 1), currentDirection)
+      case North => (Position(currentPosition.x, currentPosition.y + 1), currentDirection)
+    }
+  }
 }
 object Backward extends Command {
   override def opposite() = Forward
 
-  override def execute(current: (Position, Direction)): (Position, Direction) = ???
+  override def execute(current: (Position, Direction)): (Position, Direction) = {
+    val (currentPosition, currentDirection) = current
+    (currentDirection) match {
+      case West => (Position(currentPosition.x + 1, currentPosition.y), currentDirection)
+      case East => (Position(currentPosition.x - 1, currentPosition.y), currentDirection)
+      case North => (Position(currentPosition.x, currentPosition.y - 1), currentDirection)
+      case South => (Position(currentPosition.x, currentPosition.y + 1), currentDirection)
+    }
+  }
 }
 object Left extends Command {
   override def opposite() = Right
