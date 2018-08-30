@@ -12,8 +12,13 @@ object MarsRoverProperties extends Properties("MarsRover") {
     direction <- Gen.oneOf(North, South, East, West)
   } yield direction
 
+  // TODO: one of validTurnCommand or the other kind
   val validCommand = for {
     name <- Gen.oneOf("f", "b", "l", "r")
+  } yield Command.withName(name)
+
+  val validTurnCommand = for {
+    name <- Gen.oneOf("l", "r")
   } yield Command.withName(name)
 
   property("generate only valid positions") =
@@ -37,9 +42,17 @@ object MarsRoverProperties extends Properties("MarsRover") {
   property("move in any direction by at most 1") =
     forAll(validPosition, validDirection, validCommand) { (myPosition: Position, myDirection: Direction, myCommand: Command) =>
 
-    val myTuple = (myPosition, myDirection)
-    val result = MarsRover.move(myTuple, myCommand)
-    math.abs(result._1.x - myTuple._1.x) <= 1 &&
-      math.abs(result._1.y - myTuple._1.y) <= 1
+      val (actualPosition, _) = MarsRover.move((myPosition, myDirection), myCommand)
+      math.abs(actualPosition.x - myPosition.x) <= 1 &&
+        math.abs(actualPosition.y - myPosition.y) <= 1
+  }
+
+  property("turning doesn't move") =
+    forAll(validPosition, validDirection, validTurnCommand) { (myPosition: Position, myDirection: Direction, myTurnCommand: Command) =>
+
+      val (actualPosition, actualDirection) = MarsRover.move((myPosition, myDirection), myTurnCommand)
+      actualPosition.x == myPosition.x &&
+        actualPosition.y == myPosition.y &&
+        actualDirection != myDirection
   }
 }
