@@ -75,12 +75,14 @@ object Forward extends Command {
 
   override def execute(current: (Position, Direction)): (Position, Direction) = {
     val (currentPosition, currentDirection) = current
+    var newPosition = currentPosition
     currentDirection match {
-      case East => (Position(currentPosition.x + 1, currentPosition.y), currentDirection)
-      case West => (Position(currentPosition.x - 1, currentPosition.y), currentDirection)
-      case South => (Position(currentPosition.x, currentPosition.y - 1), currentDirection)
-      case North => (Position(currentPosition.x, currentPosition.y + 1), currentDirection)
+      case East => newPosition = Position(currentPosition.x + 1, currentPosition.y)
+      case West => newPosition = Position(currentPosition.x - 1, currentPosition.y)
+      case South => newPosition = Position(currentPosition.x, currentPosition.y - 1)
+      case North => newPosition = Position(currentPosition.x, currentPosition.y + 1)
     }
+    (newPosition, currentDirection)
   }
 }
 object Backward extends Command {
@@ -88,12 +90,14 @@ object Backward extends Command {
 
   override def execute(current: (Position, Direction)): (Position, Direction) = {
     val (currentPosition, currentDirection) = current
+    var newPosition = currentPosition
     (currentDirection) match {
-      case West => (Position(currentPosition.x + 1, currentPosition.y), currentDirection)
-      case East => (Position(currentPosition.x - 1, currentPosition.y), currentDirection)
-      case North => (Position(currentPosition.x, currentPosition.y - 1), currentDirection)
-      case South => (Position(currentPosition.x, currentPosition.y + 1), currentDirection)
+      case West => newPosition = Position(currentPosition.x + 1, currentPosition.y)
+      case East => newPosition = Position(currentPosition.x - 1, currentPosition.y)
+      case North => newPosition = Position(currentPosition.x, currentPosition.y - 1)
+      case South => newPosition = Position(currentPosition.x, currentPosition.y + 1)
     }
+    (newPosition, currentDirection)
   }
 }
 object Left extends Command {
