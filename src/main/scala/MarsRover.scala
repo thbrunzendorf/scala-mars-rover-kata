@@ -1,5 +1,3 @@
-import Command.Command
-
 import scala.annotation.tailrec
 
 object MarsRover {
@@ -81,10 +79,16 @@ object East extends Direction {
   }
 }
 
-object Command extends Enumeration {
-  type Command = Value
-  val  FORWARD = Value("f")
-  val BACKWARD = Value("b")
-  val     LEFT = Value("l")
-  val    RIGHT = Value("r")
+object Command {
+  val  FORWARD = Forward
+  val BACKWARD = Backward
+  val     LEFT = Left
+  val    RIGHT = Right
 }
+
+abstract class Command {}
+
+object Forward extends Command {}
+object Backward extends Command {}
+object Left extends Command {}
+object Right extends Command {}
