@@ -23,9 +23,13 @@ abstract class Direction() {
   def left(): Direction
   def right(): Direction
   def opposite(): Direction
+  def increment(position: Position): Position
 }
 
 object North extends Direction {
+  override def increment(position: Position): Position = {
+    Position(position.x, position.y + 1)
+  }
   def left(): Direction = {
     West
   }
@@ -36,6 +40,10 @@ object North extends Direction {
 }
 
 object West extends Direction {
+  override def increment(position: Position): Position = {
+    Position(position.x - 1, position.y)
+  }
+
   def left(): Direction = {
     South
   }
@@ -46,6 +54,9 @@ object West extends Direction {
 }
 
 object South extends Direction {
+  override def increment(position: Position): Position = {
+    Position(position.x, position.y - 1)
+  }
   def left(): Direction = {
     East
   }
@@ -56,6 +67,10 @@ object South extends Direction {
 }
 
 object East extends Direction {
+  def increment(position: Position): Position = {
+    Position(position.x + 1, position.y)
+  }
+
   def left(): Direction = {
     North
   }
@@ -75,14 +90,7 @@ object Forward extends Command {
 
   override def execute(current: (Position, Direction)): (Position, Direction) = {
     val (currentPosition, currentDirection) = current
-    var newPosition = currentPosition
-    currentDirection match {
-      case East => newPosition = Position(currentPosition.x + 1, currentPosition.y)
-      case West => newPosition = Position(currentPosition.x - 1, currentPosition.y)
-      case South => newPosition = Position(currentPosition.x, currentPosition.y - 1)
-      case North => newPosition = Position(currentPosition.x, currentPosition.y + 1)
-    }
-    (newPosition, currentDirection)
+    (currentDirection.increment(currentPosition), currentDirection)
   }
 }
 object Backward extends Command {
@@ -90,14 +98,7 @@ object Backward extends Command {
 
   override def execute(current: (Position, Direction)): (Position, Direction) = {
     val (currentPosition, currentDirection) = current
-    var newPosition = currentPosition
-    (currentDirection) match {
-      case West => newPosition = Position(currentPosition.x + 1, currentPosition.y)
-      case East => newPosition = Position(currentPosition.x - 1, currentPosition.y)
-      case North => newPosition = Position(currentPosition.x, currentPosition.y - 1)
-      case South => newPosition = Position(currentPosition.x, currentPosition.y + 1)
-    }
-    (newPosition, currentDirection)
+    (currentDirection.opposite().increment(currentPosition), currentDirection)
   }
 }
 object Left extends Command {
