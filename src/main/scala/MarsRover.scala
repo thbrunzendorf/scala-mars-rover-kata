@@ -5,7 +5,13 @@ object MarsRover {
   def receive(current: (Position, Direction), commands: Seq[Command]): (Position, Direction) = {
     commands.length match {
       case 0 => current
-      case _ => move (current, commands.head)
+      case _ => {
+        var myCurrent = current
+        for (command <- commands){
+          myCurrent = move(myCurrent, command)
+        }
+        myCurrent
+      }
     }
   }
 

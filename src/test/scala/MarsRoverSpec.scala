@@ -10,6 +10,17 @@ class MarsRoverSpec extends WordSpec with Matchers {
       direction shouldEqual South
     }
 
+    "do several commands in the order given" in {
+      val several_commands = Seq(
+        Command.LEFT,
+        Command.FORWARD,
+        Command.LEFT,
+      )
+      val (position, direction) = MarsRover.receive((Position(1,1), East), several_commands)
+      position shouldEqual Position(1,0)
+      direction shouldEqual West
+    }
+
     "turn orientation east when receiving left command" in {
       val (position, direction) = MarsRover.receive((Position(1,1), South), Seq(Command.LEFT))
       position shouldEqual Position(1,1)
