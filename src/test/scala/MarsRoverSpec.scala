@@ -17,7 +17,7 @@ class MarsRoverSpec extends WordSpec with Matchers {
         Command.LEFT,
       )
       val (position, direction) = MarsRover.receive((Position(1,1), East), several_commands)
-      position shouldEqual Position(1,0)
+      position shouldEqual Position(1,2)
       direction shouldEqual West
     }
 
@@ -61,12 +61,12 @@ class MarsRoverSpec extends WordSpec with Matchers {
     "advance position southwards when receiving forward command" in {
       val (position, direction) = MarsRover.receive((Position(1,1), South), Seq(Command.FORWARD))
       direction shouldEqual South
-      position shouldEqual Position(1,2)
+      position shouldEqual Position(1,0)
     }
     "advance position northwards when receiving forward command" in {
       val (position, direction) = MarsRover.receive((Position(1,1), North),Seq(Command.FORWARD))
       direction shouldEqual North
-      position shouldEqual Position(1,0)
+      position shouldEqual Position(1,2)
     }
 
     "advance position eastwards when receiving backward command" in {
@@ -82,12 +82,12 @@ class MarsRoverSpec extends WordSpec with Matchers {
     "advance position southwards when receiving backward command" in {
       val (position, direction) = MarsRover.receive((Position(1,1), South),Seq(Command.BACKWARD))
       direction shouldEqual South
-      position shouldEqual Position(1,0)
+      position shouldEqual Position(1,2)
     }
     "advance position northwards when receiving backward command" in {
       val (position, direction) = MarsRover.receive((Position(1,1), North),Seq(Command.BACKWARD))
       direction shouldEqual North
-      position shouldEqual Position(1,2)
+      position shouldEqual Position(1,0)
     }
   }
 }
