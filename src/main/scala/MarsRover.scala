@@ -16,18 +16,18 @@ object MarsRover {
     val currentPosition = current._1
     val currentDirection = current._2
     (currentDirection, command) match {
-      case (East, Command.FORWARD) | (West, Command.BACKWARD) =>
+      case (East, Forward) | (West, Backward) =>
         (Position(currentPosition.x + 1, currentPosition.y), currentDirection)
-      case (West, Command.FORWARD) | (East, Command.BACKWARD)=>
+      case (West, Forward) | (East, Backward)=>
         (Position(currentPosition.x - 1, currentPosition.y), currentDirection)
-      case (South, Command.FORWARD) | (North, Command.BACKWARD)=>
+      case (South, Forward) | (North, Backward)=>
         (Position(currentPosition.x, currentPosition.y - 1), currentDirection)
-      case (North, Command.FORWARD) | (South, Command.BACKWARD) =>
+      case (North, Forward) | (South, Backward) =>
         (Position(currentPosition.x, currentPosition.y + 1), currentDirection)
 
-      case (anyDirection, Command.LEFT) =>
+      case (anyDirection, Left) =>
         (currentPosition, anyDirection.left())
-      case (anyDirection, Command.RIGHT) =>
+      case (anyDirection, Right) =>
         (currentPosition, anyDirection.right())
 
       case _ =>
@@ -77,13 +77,6 @@ object East extends Direction {
   def right(): Direction = {
     South
   }
-}
-
-object Command {
-  val  FORWARD = Forward
-  val BACKWARD = Backward
-  val     LEFT = Left
-  val    RIGHT = Right
 }
 
 abstract class Command {}

@@ -1,4 +1,3 @@
-import Command.Command
 import org.scalacheck.Prop.forAll
 import org.scalacheck.{Gen, Properties}
 
@@ -13,16 +12,16 @@ object MarsRoverProperties extends Properties("MarsRover") {
   } yield direction
 
   val validCommand = for {
-    name <- Gen.oneOf("f", "b", "l", "r")
-  } yield Command.withName(name)
+    name <- Gen.oneOf(Forward, Backward, Left, Right)
+  } yield name
 
   val validTurnCommand = for {
-    name <- Gen.oneOf("l", "r")
-  } yield Command.withName(name)
+    name <- Gen.oneOf(Left, Right)
+  } yield name
 
   val validMoveCommand = for {
-    name <- Gen.oneOf("f", "b")
-  } yield Command.withName(name)
+    name <- Gen.oneOf(Forward, Backward)
+  } yield name
 
   property("generate only valid positions") =
     forAll(validPosition) { (myPosition: Position) =>
