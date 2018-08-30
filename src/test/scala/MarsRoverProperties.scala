@@ -7,21 +7,13 @@ object MarsRoverProperties extends Properties("MarsRover") {
     m <- Gen.choose(-5, 5)
   } yield Position(n, m)
 
-  val validDirection = for {
-    direction <- Gen.oneOf(North, South, East, West)
-  } yield direction
+  val validDirection = Gen.oneOf(North, South, East, West)
 
-  val validCommand = for {
-    name <- Gen.oneOf(Forward, Backward, Left, Right)
-  } yield name
+  val validCommand = Gen.oneOf(Forward, Backward, Left, Right)
 
-  val validTurnCommand = for {
-    name <- Gen.oneOf(Left, Right)
-  } yield name
+  val validTurnCommand = Gen.oneOf(Left, Right)
 
-  val validMoveCommand = for {
-    name <- Gen.oneOf(Forward, Backward)
-  } yield name
+  val validMoveCommand = Gen.oneOf(Forward, Backward)
 
   property("generate only valid positions") =
     forAll(validPosition) { (myPosition: Position) =>
