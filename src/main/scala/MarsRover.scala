@@ -7,12 +7,12 @@ object MarsRover {
     commands.length match {
       case 0 => current
       case _ => {
-        receive(move(current, commands.head), commands.tail)
+        receive(computeExactlyOneOfNewPositionOrNewDirection(current, commands.head), commands.tail)
       }
     }
   }
 
-  def move(current: (Position, Direction), command: Command): (Position, Direction) = {
+  def computeExactlyOneOfNewPositionOrNewDirection(current: (Position, Direction), command: Command): (Position, Direction) = {
     val currentPosition = current._1
     val currentDirection = current._2
     (currentDirection, command) match {
@@ -41,6 +41,7 @@ case class Position(x: Int, y: Int)
 abstract class Direction() {
   def left(): Direction
   def right(): Direction
+  def opposite(): Direction
 }
 
 object North extends Direction {
@@ -50,6 +51,7 @@ object North extends Direction {
   def right(): Direction = {
     East
   }
+  override def opposite() = South
 }
 
 object West extends Direction {
@@ -59,6 +61,7 @@ object West extends Direction {
   def right(): Direction = {
     North
   }
+  override def opposite() = East
 }
 
 object South extends Direction {
@@ -68,6 +71,7 @@ object South extends Direction {
   def right(): Direction = {
     West
   }
+  override def opposite() = North
 }
 
 object East extends Direction {
@@ -77,11 +81,22 @@ object East extends Direction {
   def right(): Direction = {
     South
   }
+  override def opposite() = West
 }
 
-abstract class Command {}
+abstract class Command {
+  def opposite(): Command
+}
 
-object Forward extends Command {}
-object Backward extends Command {}
-object Left extends Command {}
-object Right extends Command {}
+object Forward extends Command {
+  override def opposite() = Backward
+}
+object Backward extends Command {
+  override def opposite() = Forward
+}
+object Left extends Command {
+  override def opposite() = Right
+}
+object Right extends Command {
+  override def opposite() = Left
+}

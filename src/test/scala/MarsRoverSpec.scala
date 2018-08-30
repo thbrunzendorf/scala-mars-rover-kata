@@ -91,8 +91,3 @@ class MarsRoverSpec extends WordSpec with Matchers {
     }
   }
 }
-
-// TODO pbt
-// FORWARD / BACKWARD only change position => "positional commands"
-// LEFT / RIGHT only change direction => "directional commands"
-// (direction, command) has same effect as (opposite direction, opposite command)

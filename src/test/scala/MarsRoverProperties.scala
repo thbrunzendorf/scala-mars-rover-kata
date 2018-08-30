@@ -36,7 +36,7 @@ object MarsRoverProperties extends Properties("MarsRover") {
   property("move in any direction by at most 1") =
     forAll(validPosition, validDirection, validCommand) { (myPosition: Position, myDirection: Direction, myCommand: Command) =>
 
-      val (actualPosition, _) = MarsRover.move((myPosition, myDirection), myCommand)
+      val (actualPosition, _) = MarsRover.computeExactlyOneOfNewPositionOrNewDirection((myPosition, myDirection), myCommand)
       math.abs(actualPosition.x - myPosition.x) <= 1 &&
         math.abs(actualPosition.y - myPosition.y) <= 1
     }
@@ -44,7 +44,7 @@ object MarsRoverProperties extends Properties("MarsRover") {
   property("turning doesn't move") =
     forAll(validPosition, validDirection, validTurnCommand) { (myPosition: Position, myDirection: Direction, myTurnCommand: Command) =>
 
-      val (actualPosition, actualDirection) = MarsRover.move((myPosition, myDirection), myTurnCommand)
+      val (actualPosition, actualDirection) = MarsRover.computeExactlyOneOfNewPositionOrNewDirection((myPosition, myDirection), myTurnCommand)
       actualPosition.x == myPosition.x &&
         actualPosition.y == myPosition.y &&
         actualDirection != myDirection
@@ -53,8 +53,20 @@ object MarsRoverProperties extends Properties("MarsRover") {
   property("moving doesn't turn") =
     forAll(validPosition, validDirection, validMoveCommand) { (myPosition: Position, myDirection: Direction, myMoveCommand: Command) =>
 
-      val (actualPosition, actualDirection) = MarsRover.move((myPosition, myDirection), myMoveCommand)
+      val (actualPosition, actualDirection) = MarsRover.computeExactlyOneOfNewPositionOrNewDirection((myPosition, myDirection), myMoveCommand)
       actualPosition != myPosition &&
         actualDirection == myDirection
     }
-}
+
+  property("(direction, command) moves to same position as (opposite direction, opposite command)") =
+    forAll(validPosition, validDirection, validCommand) { (myPosition: Position, myDirection: Direction, myCommand: Command) =>
+
+      val oppositeDirection = myDirection.opposite()
+      val oppositeCommand = myCommand.opposite()
+
+      val (actualPosition1, actualDirection1) = MarsRover.computeExactlyOneOfNewPositionOrNewDirection((myPosition, myDirection), myCommand)
+      val (actualPosition2, actualDirection2) = MarsRover.computeExactlyOneOfNewPositionOrNewDirection((myPosition, oppositeDirection), oppositeCommand)
+
+      actualPosition1 == actualPosition2
+    }
+  }
